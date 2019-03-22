@@ -1,33 +1,116 @@
 .App {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.App .clients {
+    width: auto;
+}
+
+.App .clients .client {
+    padding: 15px;
+    width: 23em;
+    height: 2em;
+    margin: 10px;
+    line-height: 30px;
+    color: #666;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+  display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+  flex-wrap: wrap
+}
+
+.App .clients .client:nth-child(odd) {
+  background-color: #eee;
+}
+
+.App .clients .client:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.App .clients .client span.name {
+  flex: 0 0 40%;
+}
+
+.App .clients .client span.status {
+  flex: 0 0 30%;
+}
+
+.App .clients .client span.children {
+  flex: 0 0 30%;
+}
+
+.App .add-client {
+    position: fixed;
+    top:20px;
+    right:20px;
+    background-color: #4b82dd;
+    border: none;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.App .add-client:hover{
+  background-color: #2f5aa3;
+}
+
+.App .clients .label {
   text-align: center;
+    color: green;
+    font-weight: bold;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media screen and (max-width: 600px) {
+  .App .add-client {
+    right:inherit;
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+
+.App .prompt {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:red;
+  display:none;
+}
+
+.App .prompt.show {
+  display:block;
+}
+
+.App .prompt .control-buttons {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+}
+
+.App .prompt .control-buttons button{
+  min-width: 70px;
+}
+
+.App .prompt .control-buttons .previous {
+  left:20px;
+  position: absolute;
+}
+
+.App .prompt .control-buttons .next {
+  right:20px;
+  position: absolute;
 }
