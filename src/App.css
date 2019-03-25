@@ -79,6 +79,16 @@
     font-weight: bold;
 }
 
+.App .clients input {
+  display: block;
+    width: 50%;
+    margin: 20px auto;
+  height: 25px;
+    border: none;
+    background-color: #eee;
+        padding-left: 10px;
+}
+
 @media screen and (max-width: 600px) {
   .App .add-client {
     right:inherit;

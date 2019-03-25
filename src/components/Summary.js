@@ -8,7 +8,6 @@ class Summary extends Component {
       <div className="summary">
         <p className="question">Summary:</p>
         { this.props.state.flow.map((question, index) => {
-            console.log(question);
             if(question.answer !== "" && question.answer.length !== 0 ) {
               switch(question.type){
                 case 'text':

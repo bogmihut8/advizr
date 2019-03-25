@@ -1,13 +1,14 @@
-const data = [
-  { name: "Bogdan Mihut", status: false, spouseName:null, spouseAge:null, children: false, childrenList:[]},
-  { name: "Valeria Chiriac", status: true, spouseName:"Petre", spouseAge:null, children: true, childrenList: ["Mihai", "Toby"]},
-  { name: "Dan Petrescu", status: false, spouseName:null, spouseAge:null, children: true, childrenList:["Adi"]},
-]
-
-const questionHistory = {
-  previous: null,
-  active: null,
-  next: null
+const data = {
+  history : [
+    { name: "Bogdan Mihut", status: false, spouseName:null, spouseAge:null, children: false, childrenList:[]},
+    { name: "Valeria Chiriac", status: true, spouseName:"Petre", spouseAge:null, children: true, childrenList: ["Mihai", "Toby"]},
+    { name: "Dan Petrescu", status: false, spouseName:null, spouseAge:null, children: true, childrenList:["Adi"]},
+  ],
+  data: [
+    { name: "Bogdan Mihut", status: false, spouseName:null, spouseAge:null, children: false, childrenList:[]},
+    { name: "Valeria Chiriac", status: true, spouseName:"Petre", spouseAge:null, children: true, childrenList: ["Mihai", "Toby"]},
+    { name: "Dan Petrescu", status: false, spouseName:null, spouseAge:null, children: true, childrenList:["Adi"]},
+  ]
 }
 
 const flow = [
@@ -28,14 +29,6 @@ function* rev(arr) {
 
 const reducer = (state = {data, flow, showPrompt: false, previous: null}, action) => {
   switch (action.type) {
-    case 'ADD_CLIENT':
-      return { 
-        ...state,
-        data: [
-          ...state.data,
-          action.data
-        ]
-      };
     case 'SHOW_PROMPT':
       return { 
         ...state,
@@ -113,7 +106,10 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
           ...state,
           previous: null,
           showPrompt: false,
-          data: [ ...state.data, newClient ]
+          data: {
+            history: [ ...state.data.history, newClient ],
+            data: [ ...state.data.data, newClient ]
+          }
         };
       }
       else {
@@ -148,6 +144,22 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
         ...state,
         flow: [ ...newFlowChangeAnswer ]
       };
+    case 'FILTER_CLIENTS':
+      return {
+        ...state,
+        data : {
+          history: state.data.history,
+          data: state.data.history.filter((item) => item.name.toUpperCase().includes(action.data.toUpperCase()))
+        }
+      }
+    case 'RESET_DATA':
+      return {
+        ...state,
+        data : {
+          history: action.data,
+          data: action.data
+        }
+      }
     default:
       return state
   }

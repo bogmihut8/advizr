@@ -32,3 +32,17 @@ export const changeAnswer = (question, answer) => {
     data: { for: question, answer: answer.value, arr: answer.arr }
   }
 }
+
+export const filterClients = (filterValue) => {
+  return {
+    type: 'FILTER_CLIENTS',
+    data: filterValue
+  }
+}
+
+export const resetData = (data) => {
+  return {
+    type: 'RESET_DATA',
+    data
+  }
+}
