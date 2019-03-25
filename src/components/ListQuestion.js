@@ -13,11 +13,11 @@ class ListQuestion extends Component {
         <p className="question">{this.props.question}</p>
         <ul>
           {
-            this.props.answer.map((child, index) => <li key={index}>{child}</li> )
+            this.props.answer.map((child, index) => <li key={index}><span>&#9675;</span>{child}</li> )
           }
         </ul>
           <input type="text" onChange={this.handleOnChange} ref={(textInput) => { this.textInput = textInput }} />
-          <input type="button" onClick={this.handleOnClick} value="Add" />
+          <input type="button" onClick={this.handleOnClick} value="+" />
       </div>
     );
   }

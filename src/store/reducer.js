@@ -66,13 +66,7 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
         
         newFlowPrevious.push({id: question.id,  question: question.question, for: question.for, isParent: question.isParent, type: question.type, active: activePrev, answer: question.answer, previous: question.previous, next: question.next})
       }
-      //newFlowPrevious = newFlowPrevious.reverse();
-      console.log({ 
-        ...state,
-        flow: [ ...newFlowPrevious ],
-        showPrompt: showPrompt,
-        previous: previousName
-      })
+     
       return { 
         ...state,
         flow: [ ...newFlowPrevious ],
@@ -80,11 +74,16 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
         previous: previousName
       };
     case 'CHANGE_ACTIVE_NEXT':
-      let newFlowNext = [], nextName, previous, newClient = {};
+      let newFlowNext = [], nextName, previous, newClient = {}, emptyAnswer = false;
       for(let question of state.flow) {
         let activeNext = false;
         if(question.active) {
           previous = question.for;
+          
+          if(question.answer === "" || question.answer.length === 0) {
+             emptyAnswer = true;
+          }
+          
           if(question.type === 'bool' && question.answer) {
             nextName = question.next[0]
           }
@@ -94,7 +93,12 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
           else {
             nextName = question.next;
           }
+          
+          if(emptyAnswer){
+            nextName = question.for;
+          }
         }
+        
         if(question.for === nextName) {
           activeNext = true;
         }
@@ -107,7 +111,7 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
       if(previous === "summary") {
         return { 
           ...state,
-          previous: previous,
+          previous: null,
           showPrompt: false,
           data: [ ...state.data, newClient ]
         };

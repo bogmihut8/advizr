@@ -161,6 +161,34 @@
   text-align: center;
 }
 
+.App .prompt .ListQuestion ul {
+    padding: 0;
+    display: block;
+    margin: 0 auto;
+    list-style: none;
+    margin-bottom: 20px;
+    width: 50%;
+}
+
+.App .prompt .ListQuestion ul span {
+  padding-right:10px;
+}
+
+.App .prompt .ListQuestion input[type="text"]{
+    height: 25px;
+    border: none;
+    background-color: #eee;
+}
+
+.App .prompt .ListQuestion input[type="button"]{
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #6396e8;
+    color: white;
+    padding: 4px 20px;
+}
+
 .App .prompt .summary p:first-letter {
   text-transform:capitalize;
 }
