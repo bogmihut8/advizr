@@ -21,11 +21,6 @@ const flow = [
   {id: 7, type:"summary", answer:"", for: "summary", active: false, previous: ["children", "childrenList"], next:null}
 ]
 
-function* rev(arr) {
-    for (let i = arr.length - 1; i >= 0; i--) {
-        yield arr[i]
-    }
-}
 
 const reducer = (state = {data, flow, showPrompt: false, previous: null}, action) => {
   switch (action.type) {
@@ -35,6 +30,7 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
         showPrompt: action.data,
         flow: flow
       };
+      
     case 'CHANGE_ACTIVE_PREVIOUS':
       let newFlowPrevious = [], previousName, showPrompt = true;
       for(let [index, question] of state.flow.entries()) {
@@ -66,29 +62,22 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
         showPrompt: showPrompt,
         previous: previousName
       };
+      
     case 'CHANGE_ACTIVE_NEXT':
-      let newFlowNext = [], nextName, previous, newClient = {}, emptyAnswer = false;
+      let newFlowNext = [], nextName, previous, newClient = {};
       for(let question of state.flow) {
         let activeNext = false;
         if(question.active) {
           previous = question.for;
           
           if(question.answer === "" || question.answer.length === 0) {
-             emptyAnswer = true;
+            nextName = question.for;
           }
-          
-          if(question.type === 'bool' && question.answer) {
-            nextName = question.next[0]
-          }
-          else if(question.type === 'bool' && !question.answer) {
-            nextName = question.next[1]
+          else if(question.type === 'bool') {
+              question.answer ? nextName = question.next[0] : nextName = question.next[1];
           }
           else {
             nextName = question.next;
-          }
-          
-          if(emptyAnswer){
-            nextName = question.for;
           }
         }
         
@@ -100,26 +89,17 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
         
         newFlowNext.push({id: question.id,  question: question.question, for: question.for, isParent: question.isParent, type: question.type, active: activeNext, answer: question.answer, previous: question.previous, next: question.next})
       }
-      
-      if(previous === "summary") {
-        return { 
-          ...state,
-          previous: null,
-          showPrompt: false,
-          data: {
-            history: [ ...state.data.history, newClient ],
-            data: [ ...state.data.data, newClient ]
-          }
-        };
-      }
-      else {
-        return { 
-          ...state,
-          flow: [ ...newFlowNext ],
-          previous: previous,
-          showPrompt: true
-        };
-      }
+      const isSummary = previous === "summary";
+      return { 
+        ...state,
+        previous: isSummary ? null : previous,
+        showPrompt: isSummary ? false: true,
+        flow: isSummary ? state.flow : [ ...newFlowNext ],
+        data: {
+          history: isSummary ? [ ...state.data.history, newClient ] : state.data.history,
+          data: isSummary ? [ ...state.data.data, newClient ] : state.data.data
+        }
+      };
     case 'CHANGE_ANSWER':
       const newFlowChangeAnswer = [];
       for(let question of state.flow) {

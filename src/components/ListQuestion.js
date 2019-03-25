@@ -23,12 +23,6 @@ class ListQuestion extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    state
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
     changeAnswer: (question, answer) => dispatch(changeAnswer(question, answer))
@@ -36,6 +30,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ListQuestion)

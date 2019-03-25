@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { changeAnswer } from '../store/actions'
 
 class Summary extends Component {
   render() {
@@ -9,13 +8,14 @@ class Summary extends Component {
         <p className="question">Summary:</p>
         { this.props.state.flow.map((question, index) => {
             if(question.answer !== "" && question.answer.length !== 0 ) {
+              let questionFor = <span className="info">{question.for.replace(/([A-Z])/g, ' $1').trim()}:</span>;
               switch(question.type){
                 case 'text':
-                  return <p key={index}><span className="info">{question.for.replace(/([A-Z])/g, ' $1').trim()}:</span> {question.answer}</p>;
+                  return <p key={index}>{questionFor} {question.answer}</p>;
                 case 'bool':
-                  return <p key={index}><span className="info">{question.for.replace(/([A-Z])/g, ' $1').trim()}:</span> {question.answer ? "Yes" : "No"}</p>;
+                  return <p key={index}>{questionFor} {question.answer ? "Yes" : "No"}</p>;
                 case 'list':
-                  return <p key={index}><span className="info">{question.for.replace(/([A-Z])/g, ' $1').trim()}:</span> {question.answer.join(", ")}</p>;
+                  return <p key={index}>{questionFor} {question.answer.join(", ")}</p>;
                 default:
                   return;     
                 }

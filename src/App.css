@@ -1,209 +1,209 @@
 .App {
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .App .clients {
-    width: auto;
-  height:50%;
+	width: auto;
+	height: 50%;
 }
 
 .App .clients .client {
-    padding: 15px;
-    width: 23em;
-    height: 2em;
-    margin: 10px;
-    line-height: 30px;
-    color: #666;
-    font-weight: bold;
-    font-size: 1em;
-    text-align: center;
-  display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-  flex-wrap: wrap
+	padding: 15px;
+	width: 23em;
+	height: 2em;
+	margin: 10px;
+	line-height: 30px;
+	color: #666;
+	font-weight: bold;
+	font-size: 1em;
+	text-align: center;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	flex-wrap: wrap
 }
 
 .App .clients .client:nth-child(odd) {
-  background-color: #eee;
+	background-color: #eee;
 }
 
 .App .clients .client:nth-child(even) {
-  background-color: #fafafa;
+	background-color: #fafafa;
 }
 
 .App .clients .client span.name {
-  flex: 0 0 40%;
+	flex: 0 0 40%;
 }
 
 .App .clients .client span.status {
-  flex: 0 0 30%;
+	flex: 0 0 30%;
 }
 
 .App .clients .client span.children {
-  flex: 0 0 30%;
+	flex: 0 0 30%;
 }
 
 .App .add-client {
-    position: fixed;
-    top:20px;
-    right:20px;
-    min-width: 10em;
-    height: 36px;
-    border: none;
-    border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #6396e8;
-  color:white;
-  box-shadow: 0px 1px 3px 1px #888888;
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	min-width: 10em;
+	height: 36px;
+	border: none;
+	border-radius: 6px;
+	font-size: 16px;
+	cursor: pointer;
+	background-color: #6396e8;
+	color: white;
+	box-shadow: 0px 1px 3px 1px #888888;
 }
 
-.App .add-client:hover{
-  background-color: #2f5aa3;
+.App .add-client:hover {
+	background-color: #2f5aa3;
 }
 
 .App .clients .label {
-  text-align: center;
-    color: green;
-    font-weight: bold;
+	text-align: center;
+	color: green;
+	font-weight: bold;
 }
 
 .App .clients input {
-  display: block;
-    width: 50%;
-    margin: 20px auto;
-  height: 25px;
-    border: none;
-    background-color: #eee;
-        padding-left: 10px;
+	display: block;
+	width: 50%;
+	margin: 20px auto;
+	height: 25px;
+	border: none;
+	background-color: #eee;
+	padding-left: 10px;
 }
 
 @media screen and (max-width: 600px) {
-  .App .add-client {
-    right:inherit;
-  }
+	.App .add-client {
+		right: inherit;
+	}
 }
 
 .App .prompt {
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:white;
-  display:none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	display: none;
 }
 
 .App .prompt.show {
-      display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    justify-content: center;
+	display: flex;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-justify-content: center;
+	justify-content: center;
 }
 
 .App .prompt .control-buttons {
-    position: absolute;
-    bottom: 60px;
-    width: 100%;
+	position: absolute;
+	bottom: 60px;
+	width: 100%;
 }
 
-.App .prompt .control-buttons button{
-    min-width: 10em;
-    height: 36px;
-    border: none;
-    border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0px 1px 3px 1px #888888;
+.App .prompt .control-buttons button {
+	min-width: 10em;
+	height: 36px;
+	border: none;
+	border-radius: 6px;
+	font-size: 16px;
+	cursor: pointer;
+	box-shadow: 0px 1px 3px 1px #888888;
 }
 
 .App .prompt .control-buttons .previous {
-  left:20px;
-  position: absolute;
-  background-color:white;
-  border:1px solid #6396e8;
-  color: #6396e8;
+	left: 20px;
+	position: absolute;
+	background-color: white;
+	border: 1px solid #6396e8;
+	color: #6396e8;
 }
 
 .App .prompt .control-buttons .next {
-  right:20px;
-  position: absolute;
-  background-color: #6396e8;
-  color:white;
+	right: 20px;
+	position: absolute;
+	background-color: #6396e8;
+	color: white;
 }
 
 .App .prompt .question {
-  color: #3dceb8;
-  font-size:25px;
-  text-align: center;
+	color: #3dceb8;
+	font-size: 25px;
+	text-align: center;
 }
 
 .App .prompt .TextQuestion input {
-    display: block;
-    margin : 0 auto;
-    height: 25px;
-    border: none;
-    background-color: #eee;
-    font-size: 18px;
-    width: 10em;
+	display: block;
+	margin: 0 auto;
+	height: 25px;
+	border: none;
+	background-color: #eee;
+	font-size: 18px;
+	width: 10em;
 }
 
 .App .prompt .TextQuestion input.age {
-  width:4em;
-  background-color:#6396e8;
-  color: white;
-  text-align: center;
+	width: 4em;
+	background-color: #6396e8;
+	color: white;
+	text-align: center;
 }
 
 .App .prompt .BoolQuestion .radio-container {
-  text-align: center;
+	text-align: center;
 }
 
 .App .prompt .ListQuestion ul {
-    padding: 0;
-    display: block;
-    margin: 0 auto;
-    list-style: none;
-    margin-bottom: 20px;
-    width: 50%;
+	padding: 0;
+	display: block;
+	margin: 0 auto;
+	list-style: none;
+	margin-bottom: 20px;
+	width: 50%;
 }
 
 .App .prompt .ListQuestion ul span {
-  padding-right:10px;
+	padding-right: 10px;
 }
 
-.App .prompt .ListQuestion input[type="text"]{
-    height: 25px;
-    border: none;
-    background-color: #eee;
+.App .prompt .ListQuestion input[type="text"] {
+	height: 25px;
+	border: none;
+	background-color: #eee;
 }
 
-.App .prompt .ListQuestion input[type="button"]{
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #6396e8;
-    color: white;
-    padding: 4px 20px;
+.App .prompt .ListQuestion input[type="button"] {
+	border: none;
+	font-size: 16px;
+	cursor: pointer;
+	background-color: #6396e8;
+	color: white;
+	padding: 4px 20px;
 }
 
 .App .prompt .summary p:first-letter {
-  text-transform:capitalize;
+	text-transform: capitalize;
 }
 
 .App .prompt .summary .info {
-  color: #3dceb8;
-  font-weight: bold;
+	color: #3dceb8;
+	font-weight: bold;
 }

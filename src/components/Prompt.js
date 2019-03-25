@@ -14,10 +14,6 @@ class Prompt extends Component {
   nextClick = (e) => {
     this.props.next();
   }
-  
-  componentDidMount(){
-//     this.props.changeActive("spouseName");
-  }
   render() {
     return (
       <div className={this.props.display ? 'prompt show' : 'prompt'}>
