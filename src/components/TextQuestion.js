@@ -11,7 +11,7 @@ class TextQuestion extends Component {
     return (
       <div className="TextQuestion">
         <p className="question">{this.props.question}</p>
-        <input type="text" className={this.props.for === "spouseAge" ? 'age' : ''} defaultValue={this.props.answer} onChange={this.handleOnChange}/>
+        <input type={this.props.for === "spouseAge" ? "number" : "text"} className={this.props.for === "spouseAge" ? 'age' : ''} defaultValue={this.props.answer} onChange={this.handleOnChange}/>
       </div>
     );
   }

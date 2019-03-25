@@ -21,6 +21,12 @@ const flow = [
   {id: 7, type:"summary", answer:"", for: "summary", active: false, previous: ["children", "childrenList"], next:null}
 ]
 
+function* rev(arr) {
+    for (let i = arr.length - 1; i >= 0; i--) {
+        yield arr[i]
+    }
+}
+
 
 const reducer = (state = {data, flow, showPrompt: false, previous: null}, action) => {
   switch (action.type) {
@@ -33,19 +39,13 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
       
     case 'CHANGE_ACTIVE_PREVIOUS':
       let newFlowPrevious = [], previousName, showPrompt = true;
-      for(let [index, question] of state.flow.entries()) {
+      console.log(state.flow)
+      for(let index = state.flow.length-1; index >=0; index--) {
         let activePrev = false;
-
-        if(!state.previous) {
-          showPrompt = false;
-        } else {
-          if(question.for === state.previous) {
-            activePrev = true;
-          }
-        }
         
-        if(question.active) {
+        if(state.flow[index].active) {
           for(let i=index-1; i>=0; i--) {
+            console.log(state.flow[i]);
             if(state.flow[i].answer !== "" && state.flow[i].answer.length !== 0) {
               previousName = state.flow[i].for;
               break;
@@ -53,8 +53,14 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
           }
         }
         
-        newFlowPrevious.push({id: question.id,  question: question.question, for: question.for, isParent: question.isParent, type: question.type, active: activePrev, answer: question.answer, previous: question.previous, next: question.next})
+        if(state.flow[index].for === previousName) {
+            activePrev = true;
+          }
+        
+        newFlowPrevious.push({id: state.flow[index].id,  question: state.flow[index].question, for: state.flow[index].for, isParent: state.flow[index].isParent, type: state.flow[index].type, active: activePrev, answer: state.flow[index].answer, previous: state.flow[index].previous, next: state.flow[index].next})
       }
+      
+      newFlowPrevious = newFlowPrevious.reverse();
      
       return { 
         ...state,
