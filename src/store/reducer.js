@@ -1,16 +1,23 @@
 const data = [
-  { name: "Bogdan Mihut", status: "single", spouseName:null, children:[]},
-  { name: "Valeria Chiriac", status: "married", spouseName:"Petre", children: ["Mihai", "Toby"]},
-  { name: "Dan Petrescu", status: "single", spouseName:null, children:["Adi"]},
+  { name: "Bogdan Mihut", status: false, spouseName:null, spouseAge:null, children: false, childrenList:[]},
+  { name: "Valeria Chiriac", status: true, spouseName:"Petre", spouseAge:null, children: true, childrenList: ["Mihai", "Toby"]},
+  { name: "Dan Petrescu", status: false, spouseName:null, spouseAge:null, children: true, childrenList:["Adi"]},
 ]
 
+const questionHistory = {
+  previous: null,
+  active: null,
+  next: null
+}
+
 const flow = [
-  {id: 1, question: "What is your name?", type: "text", for: "name", active: true, answer: "", previous: null, next: "maried"},
-  {id: 2, question: "Are you maried?", type: "bool", for: "maried", active: false, answer: false, previous: "name", next: ["spouseName", "children"]},
-  {id: 3, question: "What is your spouse's name?", type: "text", for: "spouseName", active: false, answer: "", previous: "maried", next: "spouseAge"},
-  {id: 4, question: "What is your spouse's age?", type: "text", for: "spouseAge", active: false, answer: "", previous: "spouseName", next: "children"},
-  {id: 5, question: "Do you have children?", type: "bool", for: "children", active: false, answer: false, previous: ["spouseAge", "maried"], next: ["childrenList", null]},
-  {id: 6, question: "List your children:", type: "list", for: "childrenList", active: false, answer: [], previous: "children", next:null},
+  {id: 1, question: "What is your name?", type: "text", isParent: false, for: "name", active: true, answer: "", previous: null, next: "status"},
+  {id: 2, question: "Are you married?", type: "bool", isParent: true, for: "status", active: false, answer: false, previous: "name", next: ["spouseName", "children"]},
+  {id: 3, question: "What is your spouse's name?", type: "text", isParent: false, for: "spouseName", active: false, answer: "", previous: "status", next: "spouseAge"},
+  {id: 4, question: "What is your spouse's age?", type: "text", isParent: false, for: "spouseAge", active: false, answer: "", previous: "spouseName", next: "children"},
+  {id: 5, question: "Do you have children?", type: "bool", isParent: true, for: "children", active: false, answer: false, previous: ["spouseAge", "status"], next: ["childrenList", "summary"]},
+  {id: 6, question: "List your children:", type: "list", isParent: false, for: "childrenList", active: false, answer: [], previous: "children", next:'summary'},
+  {id: 7, type:"summary", answer:"", for: "summary", active: false, previous: ["children", "childrenList"], next:null}
 ]
 
 function* rev(arr) {
@@ -19,7 +26,7 @@ function* rev(arr) {
     }
 }
 
-const reducer = (state = {data, flow, showPrompt: false}, action) => {
+const reducer = (state = {data, flow, showPrompt: false, previous: null}, action) => {
   switch (action.type) {
     case 'ADD_CLIENT':
       return { 
@@ -32,40 +39,52 @@ const reducer = (state = {data, flow, showPrompt: false}, action) => {
     case 'SHOW_PROMPT':
       return { 
         ...state,
-        showPrompt: action.data
+        showPrompt: action.data,
+        flow: flow
       };
     case 'CHANGE_ACTIVE_PREVIOUS':
-      let newFlowPrevious = [], previousName;
-      for(let question of rev(state.flow)) {
+      let newFlowPrevious = [], previousName, showPrompt = true;
+      for(let [index, question] of state.flow.entries()) {
         let activePrev = false;
-        if(question.active) {
-          if(question.type === 'bool' && question.answer) {
-            previousName = Array.isArray(question.previous) ? question.previous[0] : question.previous;
-          }
-          else if(question.type === 'bool' && !question.answer) {
-            previousName = Array.isArray(question.previous) ? question.previous[1] : question.previous;
-          }
-          else {
-            previousName = question.previous;
-          }
-        }
 
-        if(question.for === previousName) {
-          activePrev = true;
+        if(!state.previous) {
+          showPrompt = false;
+        } else {
+          if(question.for === state.previous) {
+            activePrev = true;
+          }
         }
         
-        newFlowPrevious.push({id: question.id,  question: question.question, for: question.for, type: question.type, active: activePrev, answer: question.answer, previous: question.previous, next: question.next})
+        if(question.active) {
+          for(let i=index-1; i>=0; i--) {
+            if(state.flow[i].answer !== "" && state.flow[i].answer.length !== 0) {
+              previousName = state.flow[i].for;
+              break;
+            }
+          }
+        }
+        
+        newFlowPrevious.push({id: question.id,  question: question.question, for: question.for, isParent: question.isParent, type: question.type, active: activePrev, answer: question.answer, previous: question.previous, next: question.next})
       }
-      newFlowPrevious = newFlowPrevious.reverse();
+      //newFlowPrevious = newFlowPrevious.reverse();
+      console.log({ 
+        ...state,
+        flow: [ ...newFlowPrevious ],
+        showPrompt: showPrompt,
+        previous: previousName
+      })
       return { 
         ...state,
-        flow: [ ...newFlowPrevious ]
+        flow: [ ...newFlowPrevious ],
+        showPrompt: showPrompt,
+        previous: previousName
       };
     case 'CHANGE_ACTIVE_NEXT':
-      let newFlowNext = [], nextName;
+      let newFlowNext = [], nextName, previous, newClient = {};
       for(let question of state.flow) {
         let activeNext = false;
         if(question.active) {
+          previous = question.for;
           if(question.type === 'bool' && question.answer) {
             nextName = question.next[0]
           }
@@ -76,26 +95,40 @@ const reducer = (state = {data, flow, showPrompt: false}, action) => {
             nextName = question.next;
           }
         }
-        
         if(question.for === nextName) {
           activeNext = true;
         }
-        
-        newFlowNext.push({id: question.id,  question: question.question, for: question.for, type: question.type, active: activeNext, answer: question.answer, previous: question.previous, next: question.next})
-      }
 
-      return { 
-        ...state,
-        flow: [ ...newFlowNext ]
-      };
+        newClient = { ...newClient, [question.for]: question.answer};
+        
+        newFlowNext.push({id: question.id,  question: question.question, for: question.for, isParent: question.isParent, type: question.type, active: activeNext, answer: question.answer, previous: question.previous, next: question.next})
+      }
+      
+      if(previous === "summary") {
+        return { 
+          ...state,
+          previous: previous,
+          showPrompt: false,
+          data: [ ...state.data, newClient ]
+        };
+      }
+      else {
+        return { 
+          ...state,
+          flow: [ ...newFlowNext ],
+          previous: previous,
+          showPrompt: true
+        };
+      }
     case 'CHANGE_ANSWER':
       const newFlowChangeAnswer = [];
       for(let question of state.flow) {
         let answer;
         if(question.for === action.data.for) {
           if(question.type === 'list') {
-            question.answer.push(action.data.answer)
-            answer = question.answer;
+            let emptyArr = Object.assign([], action.data.arr);
+            emptyArr.push(action.data.answer)
+            answer = emptyArr;
           }
           else {
             answer = action.data.answer;
@@ -105,7 +138,7 @@ const reducer = (state = {data, flow, showPrompt: false}, action) => {
           answer = question.answer;
         }
         
-        newFlowChangeAnswer.push({id: question.id,  question: question.question, for: question.for, type: question.type, active: question.active, answer, previous: question.previous, next: question.next})
+        newFlowChangeAnswer.push({id: question.id,  question: question.question, for: question.for, isParent: question.isParent, type: question.type, active: question.active, answer, previous: question.previous, next: question.next})
       }
       return { 
         ...state,

@@ -13,6 +13,7 @@
 
 .App .clients {
     width: auto;
+  height:50%;
 }
 
 .App .clients .client {
@@ -57,12 +58,15 @@
     position: fixed;
     top:20px;
     right:20px;
-    background-color: #4b82dd;
+    min-width: 10em;
+    height: 36px;
     border: none;
-    color: white;
-    padding: 5px 15px;
-    border-radius: 4px;
-    cursor: pointer;
+    border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #6396e8;
+  color:white;
+  box-shadow: 0px 1px 3px 1px #888888;
 }
 
 .App .add-client:hover{
@@ -87,30 +91,81 @@
   left:0;
   width:100%;
   height:100%;
-  background-color:red;
+  background-color:white;
   display:none;
 }
 
 .App .prompt.show {
-  display:block;
+      display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
 }
 
 .App .prompt .control-buttons {
     position: absolute;
-    bottom: 40px;
+    bottom: 60px;
     width: 100%;
 }
 
 .App .prompt .control-buttons button{
-  min-width: 70px;
+    min-width: 10em;
+    height: 36px;
+    border: none;
+    border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0px 1px 3px 1px #888888;
 }
 
 .App .prompt .control-buttons .previous {
   left:20px;
   position: absolute;
+  background-color:white;
+  border:1px solid #6396e8;
+  color: #6396e8;
 }
 
 .App .prompt .control-buttons .next {
   right:20px;
   position: absolute;
+  background-color: #6396e8;
+  color:white;
+}
+
+.App .prompt .question {
+  color: #3dceb8;
+  font-size:25px;
+  text-align: center;
+}
+
+.App .prompt .TextQuestion input {
+    display: block;
+    margin : 0 auto;
+    height: 25px;
+    border: none;
+    background-color: #eee;
+    font-size: 18px;
+    width: 10em;
+}
+
+.App .prompt .TextQuestion input.age {
+  width:4em;
+  background-color:#6396e8;
+  color: white;
+  text-align: center;
+}
+
+.App .prompt .BoolQuestion .radio-container {
+  text-align: center;
+}
+
+.App .prompt .summary p:first-letter {
+  text-transform:capitalize;
+}
+
+.App .prompt .summary .info {
+  color: #3dceb8;
+  font-weight: bold;
 }

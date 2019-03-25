@@ -10,17 +10,13 @@ class App extends Component {
     this.props.showPrompt(true);
   }
   
-  componentDidMount() {
-    this.props.addClient("Petre Ispirescu", "married", "Simona", ["Marius"]);
-  }
-  
   render() {
     return (
       <div className="App">
         <button className="add-client" onClick={this.handleAddClient}>Add client</button>
         <div className="clients">
           <div className="label">Clients:</div>
-          {this.props.state.data.map((client, index) => <Client key={index} name={client.name} status={client.status} children={client.children} /> )}
+          {this.props.state.data.map((client, index) => <Client key={index} name={client.name} status={client.status ? "married" : "single"} children={client.childrenList} /> )}
         </div>
         <Prompt display={this.props.state.showPrompt}/>
       </div>

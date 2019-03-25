@@ -4,6 +4,7 @@ import { changeActivePrevious, changeActiveNext } from '../store/actions'
 import TextQuestion from "./TextQuestion";
 import BoolQuestion from "./BoolQuestion";
 import ListQuestion from "./ListQuestion";
+import Summary from "./Summary";
 
 class Prompt extends Component {
   previousClick = (e) => {
@@ -18,7 +19,6 @@ class Prompt extends Component {
 //     this.props.changeActive("spouseName");
   }
   render() {
-    console.log(this.props.state.flow)
     return (
       <div className={this.props.display ? 'prompt show' : 'prompt'}>
         { this.props.state.flow.map((question, index) => {
@@ -30,6 +30,8 @@ class Prompt extends Component {
                   return <BoolQuestion key={question.id} {...question} />;
                 case 'list':
                   return <ListQuestion key={question.id} {...question} />;
+                case 'summary':
+                  return <Summary key={question.id} />;
                 default:
                   return;     
                 }

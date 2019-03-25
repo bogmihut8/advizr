@@ -4,13 +4,13 @@ import { changeAnswer } from '../store/actions'
 
 class ListQuestion extends Component {
   handleOnClick = () => {
-    this.props.changeAnswer(this.props.for, this.textInput.value);
+    this.props.changeAnswer(this.props.for, { value: this.textInput.value, arr:this.props.answer });
   }
   
   render() {
     return (
       <div className="ListQuestion">
-        <p>{this.props.question}</p>
+        <p className="question">{this.props.question}</p>
         <ul>
           {
             this.props.answer.map((child, index) => <li key={index}>{child}</li> )

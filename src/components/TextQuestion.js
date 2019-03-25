@@ -4,14 +4,14 @@ import { changeAnswer } from '../store/actions'
 
 class TextQuestion extends Component {
   handleOnChange = (e) => {
-    this.props.changeAnswer(this.props.for, e.target.value)
+    this.props.changeAnswer(this.props.for, { value: e.target.value })
   }
   
   render() {
     return (
       <div className="TextQuestion">
-        <p>{this.props.question}</p>
-        <input type="text" defaultValue={this.props.answer} onChange={this.handleOnChange}/>
+        <p className="question">{this.props.question}</p>
+        <input type="text" className={this.props.for === "spouseAge" ? 'age' : ''} defaultValue={this.props.answer} onChange={this.handleOnChange}/>
       </div>
     );
   }

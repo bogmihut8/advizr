@@ -19,16 +19,16 @@ export const changeActivePrevious = () => {
   }
 }
 
-export const changeActiveNext = () => {
+export const changeActiveNext = (prev) => {
   return {
     type: 'CHANGE_ACTIVE_NEXT',
-    data: {}
+    data: prev
   }
 }
 
 export const changeAnswer = (question, answer) => {
   return {
     type: 'CHANGE_ANSWER',
-    data: { for: question, answer }
+    data: { for: question, answer: answer.value, arr: answer.arr }
   }
 }

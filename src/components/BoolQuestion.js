@@ -5,15 +5,15 @@ import { changeAnswer } from '../store/actions'
 class BoolQuestion extends Component {
   handleOnChange = (e) => {
     const value = (e.target.value === "true");
-    this.props.changeAnswer(this.props.for, value)
+    this.props.changeAnswer(this.props.for, { value: value })
   }
   
   render() {
     return (
       <div className="BoolQuestion">
-        <p>{this.props.question}</p>
-          <input type="radio" name={this.props.for} value="true" checked={this.props.answer ? 'checked' : ''} onChange={this.handleOnChange} /> Yes <br />
-          <input type="radio" name={this.props.for} value="false" checked={!this.props.answer ? 'checked' : ''} onChange={this.handleOnChange} /> No
+        <p className="question">{this.props.question}</p>
+          <div className="radio-container"><input type="radio" name={this.props.for} value="true" id="r1" checked={this.props.answer ? 'checked' : ''} onChange={this.handleOnChange} /> <label htmlFor="r1"> Yes</label></div>
+          <div className="radio-container"><input type="radio" name={this.props.for} value="false" id="r2" checked={!this.props.answer ? 'checked' : ''} onChange={this.handleOnChange} /> <label htmlFor="r2"> No</label></div>
       </div>
     );
   }
