@@ -39,23 +39,25 @@ const reducer = (state = {data, flow, showPrompt: false, previous: null}, action
       
     case 'CHANGE_ACTIVE_PREVIOUS':
       let newFlowPrevious = [], previousName, showPrompt = true;
-      console.log(state.flow)
       for(let index = state.flow.length-1; index >=0; index--) {
         let activePrev = false;
         
         if(state.flow[index].active) {
           for(let i=index-1; i>=0; i--) {
-            console.log(state.flow[i]);
             if(state.flow[i].answer !== "" && state.flow[i].answer.length !== 0) {
               previousName = state.flow[i].for;
               break;
             }
           }
+          
+          if(index === 0) {
+            showPrompt = false;
+          }
         }
         
         if(state.flow[index].for === previousName) {
             activePrev = true;
-          }
+        }
         
         newFlowPrevious.push({id: state.flow[index].id,  question: state.flow[index].question, for: state.flow[index].for, isParent: state.flow[index].isParent, type: state.flow[index].type, active: activePrev, answer: state.flow[index].answer, previous: state.flow[index].previous, next: state.flow[index].next})
       }
